@@ -1,5 +1,5 @@
-from config import VKTOKEN, number_of_photo
-from yandex import ya_create_folder, ya_upload_photos
+from config import VKTOKEN, number_of_photo, YTOKEN
+from yandex import YandexInterface
 from VK_module import VKAPIClient
 import json
 
@@ -7,7 +7,8 @@ import json
 if __name__ == '__main__':
     owner_id = input('Введите ID Пользователя "Вконтакте": ')
     from_vk_to_ya = input('Введите имя папки: ')
-    ya_create_folder(from_vk_to_ya)
+    yandex_interface = YandexInterface(YTOKEN)
+    yandex_interface.ya_create_folder(from_vk_to_ya)
     vk = VKAPIClient(VKTOKEN, owner_id).get_photo()
     photos_count = vk['response']['count']
     if photos_count < number_of_photo:
@@ -43,7 +44,7 @@ if __name__ == '__main__':
         likes_array.append(likes)
         current_file['file_name'] = f'{likes}.jpg'
         current_file['size'] = size
-        ya_upload_photos(from_vk_to_ya, photo_url, likes)
+        yandex_interface.ya_upload_photos(photo_url, likes)
         photos_log.append(current_file)
     with open("photos_log.json", "w") as file:
         json.dump(photos_log, file, indent=4)
