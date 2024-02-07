@@ -1,6 +1,7 @@
 from config import VKTOKEN, number_of_photo, YTOKEN
 from yandex import YandexInterface
 from VK_module import VKAPIClient
+from tqdm import tqdm
 import json
 
 
@@ -16,6 +17,7 @@ if __name__ == '__main__':
         number_of_photo = photos_count
     max_photos = []
     for photo in vk['response']['items']:
+
         max_size = ''
         photo_url = ''
         likes = ''
@@ -34,9 +36,11 @@ if __name__ == '__main__':
         current_photo.append(photo_url)
         current_photo.append(date)
         max_photos.append(current_photo)
-    max_photos = sorted(max_photos, reverse=True)[:photos_count]
+    max_photos = sorted(max_photos, reverse=True)[:number_of_photo]
     likes_array = []
     photos_log = []
+    print(f'Загружаем {number_of_photo} фотографий ')
+    pbar = tqdm(total=number_of_photo)
     for max_photo, size, likes, photo_url, date in max_photos:
         if likes in likes_array:
             likes = f'{likes}_{date}'
@@ -46,5 +50,7 @@ if __name__ == '__main__':
         current_file['size'] = size
         yandex_interface.ya_upload_photos(photo_url, likes)
         photos_log.append(current_file)
+        pbar.update(1)
     with open("photos_log.json", "w") as file:
         json.dump(photos_log, file, indent=4)
+    print('Выполнено!')

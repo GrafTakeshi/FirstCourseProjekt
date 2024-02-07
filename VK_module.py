@@ -22,4 +22,3 @@ class VKAPIClient:
         params = self.get_comon_params()
         response = requests.get(f'{self.API_BASE_URL}/photos.get', params=params)
         return response.json()
-
