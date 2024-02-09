@@ -39,6 +39,7 @@ class YandexInterface:
                                  params=params_yc,
                                  headers=headers_y
                                  )
+        return response
         # if 200 <= response.status_code < 300:
         #     print(f'Успешно загрузили на диск Файл {likes}.jpg')
         # else:
