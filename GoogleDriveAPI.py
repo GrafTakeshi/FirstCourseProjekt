@@ -4,8 +4,6 @@ import json
 import requests
 
 
-
-
 class GoogleIntrface:
     API_BASE_URL = "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
 
@@ -13,8 +11,6 @@ class GoogleIntrface:
         gauth = GoogleAuth()
         gauth.LocalWebserverAuth()
         self.token = gauth.attr['credentials'].access_token
-
-
 
     def gdrive_downloader(self, url, file_name, folder_id):
         self.url = url
@@ -33,7 +29,6 @@ class GoogleIntrface:
             headers={"Authorization": "Bearer " + self.token},
             files=self.files
         )
-
 
     def createFolder(self, folderName):
         url = 'https://www.googleapis.com/drive/v3/files'
